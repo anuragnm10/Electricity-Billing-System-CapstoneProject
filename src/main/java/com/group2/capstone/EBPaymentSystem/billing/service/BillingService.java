@@ -19,6 +19,7 @@ import com.group2.capstone.EBPaymentSystem.authentication.models.User;
 import com.group2.capstone.EBPaymentSystem.billing.models.Bill;
 import com.group2.capstone.EBPaymentSystem.billing.models.Meter;
 import com.group2.capstone.EBPaymentSystem.billing.models.MeterReadings;
+import com.group2.capstone.EBPaymentSystem.billing.models.PaymentInfo;
 import com.group2.capstone.EBPaymentSystem.billing.models.Property;
 import com.group2.capstone.EBPaymentSystem.billing.models.PropertyType;
 import com.group2.capstone.EBPaymentSystem.billing.repository.BillingRepo;
@@ -40,8 +41,6 @@ public class BillingService {
     @Autowired
     private MeterReadingsRepo meterReadingsRepo;
     
-    @Autowired
-    private PropertyRepo propertyRepo;
 
     public List<Property> getUserProperties(User user) {
         List<Property> properties = user.getUserProfile().getProperties();
@@ -155,6 +154,8 @@ public class BillingService {
             contentStream.newLineAtOffset(0, -15);
 
         }
+        contentStream.newLine();
+        contentStream.showText("You can pay the bill at: "+"http://localhost:8081/pay");
         contentStream.endText();
         contentStream.moveTo(startX, endY);
         contentStream.lineTo(endX, endY);
@@ -205,5 +206,13 @@ public class BillingService {
     	Optional<Bill> bill = billRepo.findById(billId);
     	return bill.get();
     }
+
+	public void updateStatusAsPaid(long billId) {
+		
+		Bill bill = getBillFromBillId(billId);
+		bill.setStatus(2);
+		billRepo.save(bill);
+		
+	}
 
 }

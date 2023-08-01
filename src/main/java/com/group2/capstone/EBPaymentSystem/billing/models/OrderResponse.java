@@ -13,5 +13,6 @@ public class OrderResponse {
 	private String orderId;
 	private Integer amount;
 	private String currency;
+	private long billId;
 
 }

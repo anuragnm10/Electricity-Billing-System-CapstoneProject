@@ -11,4 +11,9 @@ public class PaymentPageController {
 	public String getPaymentPage() {
 		return "payment";
 	}
+	
+	@GetMapping("/success")
+	public String successPage() {
+		return "success";
+	}
 }
